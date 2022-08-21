@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts, Lusitana_400Regular, Lusitana_700Bold } from '@expo-google-fonts/lusitana'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import * as SplashScreen from 'expo-splash-screen'
+import { RootStackParams } from './navigation'
+import Home from './pages/Home'
+import Bio from './pages/Bio'
 
-export default function App() {
+const Stack = createNativeStackNavigator<RootStackParams>()
+
+const App = () => {
+  const [fontsLoaded] = useFonts({ Lusitana_400Regular, Lusitana_700Bold })
+
+  SplashScreen.preventAutoHideAsync()
+
+  if (!fontsLoaded) {
+    return null
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer onReady={() => SplashScreen.hideAsync()}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Home'
+          component={Home}
+          options={{ title: 'Pensadores pró liberdade' }} />
+
+        <Stack.Screen
+          name='Bio'
+          component={Bio}
+          options={({ route }) => ({ title: route.params.thinker.name })} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
