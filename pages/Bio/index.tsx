@@ -25,7 +25,7 @@ const Bio = ({ route }: Props) => {
         </Row>
         {thinker.deathDay &&
           <Row>
-            <RowName>Faleceu em:</RowName>
+            <RowName>Morreu em:</RowName>
             <RowValue>{thinker.deathDay.toLocaleDateString()}</RowValue>
           </Row>
         }
